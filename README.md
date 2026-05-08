@@ -9,5 +9,6 @@ Games featured :
 - Flappy Dino (Flappy Bird) :
   <img width="200" height="200" alt="flappy_cover" src="https://github.com/user-attachments/assets/93662f38-a03c-4745-8a0c-  6697f3967087"/>
   The classic Flappy Bird game, not complete at the moment.
+  
   Controls :
   - Space : Jump
