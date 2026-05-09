@@ -7,12 +7,20 @@ I also wanted this to be a learning experience, as I did not have the opportunit
 You can choose to play any featured game you want from the index.
 All games start by pressing Enter.
 Games featured :
-- Flappy Dino (Flappy Bird) :
-  <img width="200" height="200" alt="flappy_cover" src="https://github.com/user-attachments/assets/93662f38-a03c-4745-8a0c-  6697f3967087"/>
-  The classic Flappy Bird game, not complete at the moment.
-  
-  Controls :
-  - Space : Jump
+- Flappy Bird :
+The classic Flappy Bird game, except I switched up the bird with a dinosaur because I don't like the bird...
+The sprite doesn't rotate...
+
+Pipes spawn at a random interval, with a minimum of 100 frames (1.66 seconds) between each one.
+Your goal is to avoid the pipes coming at you, if you touch one, you lose.
+Each pipe you pass increases your score by 1.
+Every 10 score gained, the difficulty increases, this only happens up to 80 score points.
+Every time the difficulty increases, the maximum interval between pipes shrinks, and pipes go faster.
+
+Press Enter to start a game, Space to jump.
+
+There isn't much more to it, but since it was my first JavaScript project it took me some time to learn how to do OOP and the syntax
+
 - Snake :
   The classic Snake game, also incomplete.
 
