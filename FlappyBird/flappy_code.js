@@ -159,7 +159,7 @@ function gameLoop() {
         player.move();
         if (frameCount >= pipeInterval) {
             createPipe();
-            pipeInterval = Math.max(100, 250 - gameSpeed * 25);
+            pipeInterval = Math.max(100 - gameSpeed * 8, 250 - gameSpeed * 25);
             frameCount = 0;
         }
         for (let pipe of pipes) {
