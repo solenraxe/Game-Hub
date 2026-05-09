@@ -22,7 +22,16 @@ Press Enter to start a game, Space to jump.
 There isn't much more to it, but since it was my first JavaScript project it took me some time to learn how to do OOP and the syntax
 
 - Snake :
-  The classic Snake game, also incomplete.
+The classic Snake game.
+Apples spawn randomly on the map, your goal is to collect them.
+Your snake moves automatically, you can only choose the direction it moves in.
+Each time you collect an apple with your snake, you grow by 1 and gain a point.
+Your ultimate goal is to fill out the screen with your snake.
+Colliding with a wall or yourself will kill you.
 
-  Controls :
-  - Arrows : Change snake direction
+The game uses a 20x20 grid to represent the map, allowing for good perfomance and easier collision checks.
+
+Press Left Arrow to go left, Right Arrow to go right, Up Arrow to go up and Down Arrow to go down.
+Press Enter to start a game.
+
+You can't move in the opposite direction you're already going in (would instantly kill you anyway).
