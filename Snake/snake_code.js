@@ -2,7 +2,6 @@ let gameWindow = document.getElementById("game-window");
 const heightRatio = gameWindow.clientHeight/400;
 
 gameWindow.style.width = gameWindow.clientHeight + "px";
-console.log(gameWindow.clientWidth);
 
 let gameOn = false;
 let score = 0;
@@ -93,6 +92,7 @@ class Player {
 
         if (this.x < 0 || this.x >= 20 || this.y < 0 || this.y >= 20 || grid[this.x][this.y].occupied) {
             gameOn = false;
+            return;
         }
 
         this.headImg.style.left = grid[this.x][this.y].x + "px";
@@ -141,7 +141,6 @@ class Apple {
 
 let player = null;
 let apple = null;
-let frameCount = 0;
 document.addEventListener("keydown", function(event) {
     if (gameOn) {
         if (event.key === "ArrowRight") {
@@ -166,6 +165,11 @@ document.addEventListener("keydown", function(event) {
             gameOn = true;
             score = 0;
             document.getElementById("score").innerText = 'Score : ' + score;
+            for (let i = 0; i < 20; i++) {
+                for (let j = 0; j < 20; j++) {
+                    grid[i][j].occupied = false;
+                }
+            }
             if (player !== null) {
                 player.bodyImgs.forEach(img => gameWindow.removeChild(img));
                 player.bodyImgs = [];
@@ -175,7 +179,6 @@ document.addEventListener("keydown", function(event) {
             player = new Player();
             gameWindow.appendChild(player.tailImg);
             apple = addApple(new Apple());
-            frameCount = 0;
         }
     }
 });
@@ -187,10 +190,10 @@ function addApple(newApple) {
         newApple.y = Math.floor(Math.random() * 20);
     }
     newApple.img.className = "entity";
-    newApple.img.style.left = grid[newApple.x][newApple.y].x + "px";
-    newApple.img.style.top = grid[newApple.x][newApple.y].y + "px";
-    newApple.img.style.width = 20 * heightRatio + "px";
-    newApple.img.style.height = 20 * heightRatio + "px";
+    newApple.img.style.left = grid[newApple.x][newApple.y].x - 2.5 * heightRatio + "px";
+    newApple.img.style.top = grid[newApple.x][newApple.y].y - 2.5 * heightRatio + "px";
+    newApple.img.style.width = 25 * heightRatio + "px";
+    newApple.img.style.height = 25 * heightRatio + "px";
 
     return newApple;
 }
@@ -215,22 +218,19 @@ function checkAppleCollision(plr, apple) {
 
 function gameLoop() {
     if (gameOn && score < 398) {
-        frameCount = (frameCount + 1) % 600;
-        if (frameCount % 15 === 0) {
-            player.move();
+        player.move();
 
-            if (checkAppleCollision(player, apple)) {
-                score++;
-                if (score >= 398) {
-                    gameOn = false;
-                }
-                document.getElementById("score").innerText = 'Score : ' + score;
-                gameWindow.removeChild(apple.img);
-                apple = addApple(new Apple());
-                addBodyPart(player);
+        if (checkAppleCollision(player, apple)) {
+            score++;
+            if (score >= 398) {
+                 gameOn = false;
             }
+            document.getElementById("score").innerText = 'Score : ' + score;
+            gameWindow.removeChild(apple.img);
+            apple = addApple(new Apple());
+            addBodyPart(player);
         }
     }
 }
 
-setInterval(gameLoop, 1000/60);
+setInterval(gameLoop, 1000/6);
