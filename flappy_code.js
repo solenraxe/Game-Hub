@@ -2,6 +2,7 @@ let gameWindow = document.getElementById("game-window");
 const heightRatio = gameWindow.clientHeight/400;
 
 let score = 0;
+let gameOn = false;
 
 class Player {
     constructor() {
@@ -120,8 +121,16 @@ let player = new Player();
 let pipes = [];
 
 document.addEventListener("keydown", function(event) {
-    if (event.code === "Space") {
-        player.vy = -9 * heightRatio;
+    if (gameOn) {
+        if (event.code === "Space") {
+            player.vy = -9 * heightRatio;
+        }
+    } else {
+        if (event.key === "Enter") {
+            gameOn = true;
+            score = 0;
+            document.getElementById("score").innerText = 'Score : ' + score;
+        }
     }
 });
 
@@ -155,19 +164,20 @@ function checkCollision(player, pipe) {
 
 let frameCount = 0;
 function gameLoop() {
-    frameCount = (frameCount + 1) % 600;
-   
-    player.move();
+    if (gameOn) {
+        frameCount = (frameCount + 1) % 600;
+    
+        player.move();
 
-    if (frameCount % 200 === 0) {
-        createPipe();
-    }
-    for (let pipe of pipes) {
-        pipe.move();
-        if (checkCollision(player, pipe.pipeTop) || checkCollision(player, pipe.pipeBottom)) {
-            deleteAllPipes();
-            alert("Game Over! Your score: " + score);
-            location.reload();
+        if (frameCount % 200 === 0) {
+            createPipe();
+        }
+        for (let pipe of pipes) {
+            pipe.move();
+            if (checkCollision(player, pipe.pipeTop) || checkCollision(player, pipe.pipeBottom)) {
+                deleteAllPipes();
+                gameOn = false;
+            }
         }
     }
 }
