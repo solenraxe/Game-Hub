@@ -28,7 +28,7 @@ Your snake moves automatically, you can only choose the direction it moves in.
 Each time you collect an apple with your snake, you grow by 1 and gain a point.
 Your ultimate goal is to fill out the screen with your snake.
 Colliding with a wall or yourself will kill you.
-<img width="121" height="119" alt="image" src="https://github.com/user-attachments/assets/99febe9f-c6a8-4f6d-83fa-b253c88b403c" />
+<img width="125" height="125" alt="image" src="https://github.com/user-attachments/assets/99febe9f-c6a8-4f6d-83fa-b253c88b403c" />
 
 
 The game uses a 20x20 grid to represent the map, allowing for good perfomance and easier collision checks.
