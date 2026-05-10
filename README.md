@@ -11,11 +11,11 @@ Games featured :
 The classic Flappy Bird game, except I switched up the bird with a dinosaur because I don't like the bird...
 The sprite doesn't rotate...
 
-Pipes spawn at a random interval, with a minimum of 100 frames (1.66 seconds) between each one.
+Pipes spawn at a random interval, with a minimum of 40 frames (.66 seconds) between each one.
 Your goal is to avoid the pipes coming at you, if you touch one, you lose.
 Each pipe you pass increases your score by 1.
 Every 10 score gained, the difficulty increases, this only happens up to 80 score points.
-Every time the difficulty increases, the maximum interval between pipes shrinks, and pipes go faster.
+Every time the difficulty increases, the interval between pipes shrinks, and pipes go faster.
 
 Press Enter to start a game, Space to jump.
 
@@ -28,6 +28,8 @@ Your snake moves automatically, you can only choose the direction it moves in.
 Each time you collect an apple with your snake, you grow by 1 and gain a point.
 Your ultimate goal is to fill out the screen with your snake.
 Colliding with a wall or yourself will kill you.
+<img width="121" height="119" alt="image" src="https://github.com/user-attachments/assets/99febe9f-c6a8-4f6d-83fa-b253c88b403c" />
+
 
 The game uses a 20x20 grid to represent the map, allowing for good perfomance and easier collision checks.
 
