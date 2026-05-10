@@ -3,6 +3,7 @@ const heightRatio = gameWindow.clientHeight/400;
 
 gameWindow.style.width = gameWindow.clientHeight + "px";
 
+const cellSize = 20 * heightRatio
 let gameOn = false;
 let score = 0;
 
@@ -10,7 +11,7 @@ let grid = [];
 for (let i = 0; i < 20; i++) {
     grid[i] = [];
     for (let j = 0; j < 20; j++) {
-        grid[i][j] = {x: i * 20 * heightRatio, y: j * 20 * heightRatio, occupied: false};
+        grid[i][j] = false;
     }
 }
 
@@ -56,7 +57,7 @@ function getJointOrientation(dir1, dir2) {
 
 class Player {
     constructor() {
-        this.headImg = document.getElementById("player");
+        this.headImg = document.createElement("img");
         this.tailImg = document.createElement("img");
         this.bodyImgs = [];
         this.newImg = null;
@@ -66,6 +67,8 @@ class Player {
         this.moved = false;
         this.previousPositions = [];
 
+        this.headImg.src = "assets/head.png";
+        this.headImg.className = "entity";
         this.headImg.style.width = 20 * heightRatio + "px";
         this.headImg.style.height = 20 * heightRatio + "px";
         this.tailImg.src = "assets/tail.png";
@@ -90,27 +93,27 @@ class Player {
             this.y += 1;
         }
 
-        if (this.x < 0 || this.x >= 20 || this.y < 0 || this.y >= 20 || grid[this.x][this.y].occupied) {
+        if (this.x < 0 || this.x >= 20 || this.y < 0 || this.y >= 20 || grid[this.x][this.y]) {
             gameOn = false;
             return;
         }
 
-        this.headImg.style.left = grid[this.x][this.y].x + "px";
-        this.headImg.style.top = grid[this.x][this.y].y + "px";
+        this.headImg.style.left = this.x * cellSize + "px";
+        this.headImg.style.top = this.y * cellSize + "px";
         this.headImg.style.transform = getOrientation(this.direction);
-        grid[this.x][this.y].occupied = true;
+        grid[this.x][this.y] = true;
 
         let tailPos = this.previousPositions[this.previousPositions.length - 1];
-        this.tailImg.style.left = grid[tailPos.x][tailPos.y].x + "px";
-        this.tailImg.style.top = grid[tailPos.x][tailPos.y].y + "px";
+        this.tailImg.style.left = tailPos.x * cellSize + "px";
+        this.tailImg.style.top = tailPos.y * cellSize + "px";
         this.tailImg.style.transform = getOrientation(this.previousPositions[this.previousPositions.length - 1].direction);
-        grid[tailPos.x][tailPos.y].occupied = false;
+        grid[tailPos.x][tailPos.y] = false;
        
         for (let i = 0; i < this.bodyImgs.length; i++) {
             let bodyImg = this.bodyImgs[i];
             let pos = this.previousPositions[i];
-            bodyImg.style.left = grid[pos.x][pos.y].x + "px";
-            bodyImg.style.top = grid[pos.x][pos.y].y + "px";
+            bodyImg.style.left = pos.x * cellSize + "px";
+            bodyImg.style.top = [pos.y] * cellSize + "px";
             if (this.previousPositions[i].joint && this.previousPositions[i].direction !== this.previousPositions[i+1].direction) {
                 bodyImg.src = "assets/snake_joint.png";
                 bodyImg.style.transform = getJointOrientation(this.previousPositions[i].direction, this.previousPositions[i+1].direction);
@@ -167,16 +170,18 @@ document.addEventListener("keydown", function(event) {
             document.getElementById("score").innerText = 'Score : ' + score;
             for (let i = 0; i < 20; i++) {
                 for (let j = 0; j < 20; j++) {
-                    grid[i][j].occupied = false;
+                    grid[i][j] = false;
                 }
             }
             if (player !== null) {
                 player.bodyImgs.forEach(img => gameWindow.removeChild(img));
                 player.bodyImgs = [];
+                gameWindow.removeChild(player.headImg);
                 gameWindow.removeChild(player.tailImg);
                 gameWindow.removeChild(apple.img);
             }
             player = new Player();
+            gameWindow.appendChild(player.headImg);
             gameWindow.appendChild(player.tailImg);
             apple = addApple(new Apple());
         }
@@ -185,13 +190,13 @@ document.addEventListener("keydown", function(event) {
 
 function addApple(newApple) {
     gameWindow.appendChild(newApple.img);
-    while (grid[newApple.x][newApple.y].occupied) {
+    while (grid[newApple.x][newApple.y]) {
         newApple.x = Math.floor(Math.random() * 20);
         newApple.y = Math.floor(Math.random() * 20);
     }
     newApple.img.className = "entity";
-    newApple.img.style.left = grid[newApple.x][newApple.y].x - 2.5 * heightRatio + "px";
-    newApple.img.style.top = grid[newApple.x][newApple.y].y - 2.5 * heightRatio + "px";
+    newApple.img.style.left = newApple.x * cellSize - 2.5 * heightRatio + "px";
+    newApple.img.style.top = newApple.y * cellSize - 2.5 * heightRatio + "px";
     newApple.img.style.width = 25 * heightRatio + "px";
     newApple.img.style.height = 25 * heightRatio + "px";
 
@@ -223,7 +228,7 @@ function gameLoop() {
         if (checkAppleCollision(player, apple)) {
             score++;
             if (score >= 398) {
-                 gameOn = false;
+                gameOn = false;
             }
             document.getElementById("score").innerText = 'Score : ' + score;
             gameWindow.removeChild(apple.img);
@@ -233,4 +238,4 @@ function gameLoop() {
     }
 }
 
-setInterval(gameLoop, 1000/6);
+setInterval(gameLoop, 1000/10);
